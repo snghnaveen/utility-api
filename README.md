@@ -68,19 +68,21 @@ Example result:
 ```
 
 
-### GET: `/api/fact/factoftheday`
+### GET: `/api/joke/jokeoftheday`
 #### Example
-Example usage: `GET http://utility-api.herokuapp.com/api/fact/factoftheday`
+Example usage: `GET http://utility-api.herokuapp.com/api/joke/jokeoftheday`
 
 Example result:
 ```json
 {
     "status": 200,
-    "category": "Fact Of the day",
+    "category": "Joke Of the day",
     "message": [
-        "You are about 1 centimeter taller in the morning than in the evening!",
-        "75% of Honda vehicles purchased in the U.S. are manufactured in North America!",
-        "In West Virginia if you run over an animal, you can legally take it home and cook it for dinner!"
+        "Q: Why did the one armed man cross the road? A: To get to the second hand shop.",
+        "Why can't designated hitters bake pancakes? They also forget the batter.",
+        "Why did the strawberry cross the road?  Because it's mama was in a jam!",
+        "Q: What do you call a pig that does karate? A: A pork chop.",
+        "Q: How many politicians does it take to change a light bulb? A: Two: one to change it and another one to change it back again."
     ]
 }
 ```

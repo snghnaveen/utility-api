@@ -27,7 +27,7 @@ app.get('*', function(req, res){
 app.listen(port, function () {
     var environmentDetail = 'Application running on environment : ' + app.get('env');
     var hostportDetail = 'App is running on http://localhost:' + port;
-    console.log(chalk.black.bgYellow(environmentDetail));
+    console.log(chalk.black.bgBlue(environmentDetail));
     console.log(chalk.green.bgBlack(hostportDetail));
 });
 

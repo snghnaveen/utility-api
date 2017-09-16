@@ -13,22 +13,20 @@ An API to for Jokes, Quotes and Facts.
 
 - npm
 
-
 ### Installation
 ```sh
 $ git clone git@github.com:snghnaveen/utility-api.git
 $ cd utility-api
 $ npm install
-$ NODE_ENV=development node index.js
+$ npm start
 ```
 Running Test
 ``` sh
-$ ./node_modules/mocha/bin/mocha tests/test-script.js
+$ npm test
 ```
 
 # API Usage
 ### API Base URL: `http://utility-api.herokuapp.com/`
-
 
 ### GET: `/api/fact/factoftheday`
 #### Example
@@ -61,8 +59,6 @@ Example result:
         "The end of labor is to gain leisure.",
         "Ultimately, we wish the joy of perfect union with the person we love.",
         "Art is the proper task of life.",
-        "You're only here for a short visit. Don't hurry, don't worry. And be sure to smell the flowers along the way.",
-        "If all the cars in the United States were placed end to end, it would probably be Labor Day Weekend."
     ]
 }
 ```
@@ -81,10 +77,16 @@ Example result:
         "Q: Why did the one armed man cross the road? A: To get to the second hand shop.",
         "Why can't designated hitters bake pancakes? They also forget the batter.",
         "Why did the strawberry cross the road?  Because it's mama was in a jam!",
-        "Q: What do you call a pig that does karate? A: A pork chop.",
-        "Q: How many politicians does it take to change a light bulb? A: Two: one to change it and another one to change it back again."
     ]
 }
+```
+
+#####(optional query param)
+- items : number of items expected in message (1 to 60), default is 10
+
+### Example CURL
+```sh
+ curl -X GET http://utility-api.herokuapp.com/api/joke/jokeoftheday?items=4```
 ```
 # Todo
 * Add more utility

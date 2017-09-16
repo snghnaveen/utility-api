@@ -1,68 +1,128 @@
-var _ = require('lodash'),
-    cheerio = require('cheerio'),
+var cheerio = require('cheerio'),
     request = require('request'),
     config = require('../config/config'),
     jokeAttribute = config.jokeAttribute,
     quoteAttribute = config.quoteAttribute,
-    factAttribute = config.factAttribute;
+    factAttribute = config.factAttribute,
+    statusOk = 200,
+    unavailable = 503;
 
 
 exports.jokeoftheday = function (req, res) {
-    var pageToRender = getRandomTopic(jokeAttribute);
-    request(jokeAttribute.baseUrl + pageToRender, function (error, response, html) {
-        if (!error) {
-            fetchJokedata(html, function (err, content) {
-                if (!err) {
-                    res.send({status: 200, category: "Joke Of the day", message: content});
-                }
-                else {
-                    noContentFound(res);
-                }
-            });
-        }
-        else {
-            displayerrorMessage(res);
-        }
+    var requestedItems = getLengthOfRequestedItems(req);
+    var resultData = [];
+    getJokeResult(requestedItems, resultData, function (err, resultCompletedData) {
+        res.send({
+            status: statusOk,
+            category: "Joke Of the day",
+            message: resultCompletedData.slice(0, requestedItems)
+        });
     });
+
+    function getJokeResult(requestedItems, resultData, callback) {
+        request(jokeAttribute.baseUrl + getRandomTopic(jokeAttribute), function (error, response, html) {
+            if (!error) {
+                fetchJokedata(html, function (err, content) {
+                    if (!err) {
+                        content.forEach(function (eachItem) {
+                            resultData.push(eachItem);
+                        });
+                        resultData = resultData.filter(onlyUnique);
+                        if (resultData.length > requestedItems) {
+                            callback(null, resultData);
+                        } else {
+                            getJokeResult(requestedItems, resultData, callback);
+                        }
+                    }
+                    else {
+                        noContentFound(res);
+                    }
+                });
+            }
+            else {
+                displayerrorMessage(res);
+            }
+        });
+
+    }
 };
 
 
 exports.quoteoftheday = function (req, res) {
-    var pageToRender = getRandomTopic(quoteAttribute);
-    request(quoteAttribute.baseUrl + pageToRender, function (error, response, html) {
-        if (!error) {
-            fetchQuoteData(html, function (err, content) {
-                if (err === false) {
-                    res.send({status: 200, category: "Quote Of the day", message: content});
-                }
-                else {
-                    noContentFound(res);
-                }
-            });
-        }
-        else {
-            displayerrorMessage(res);
-        }
+    var requestedItems = getLengthOfRequestedItems(req);
+    var resultData = [];
+    getQuoteResult(requestedItems, resultData, function (err, resultCompletedData) {
+        res.send({
+            status: statusOk,
+            category: "Quote Of The  Day",
+            message: resultCompletedData.slice(0, requestedItems)
+        });
     });
+
+    function getQuoteResult(requestedItems, resultData, callback) {
+        request(quoteAttribute.baseUrl + getRandomTopic(quoteAttribute), function (error, response, html) {
+            if (!error) {
+                fetchQuoteData(html, function (err, content) {
+                    if (!err) {
+                        content.forEach(function (eachItem) {
+                            resultData.push(eachItem);
+                        });
+                        resultData = resultData.filter(onlyUnique);
+                        if (resultData.length > requestedItems) {
+                            callback(null, resultData);
+                        } else {
+                            getQuoteResult(requestedItems, resultData, callback);
+                        }
+                    }
+                    else {
+                        noContentFound(res);
+                    }
+                });
+            }
+            else {
+                displayerrorMessage(res);
+            }
+        });
+    }
 };
 
 
 exports.factoftheday = function (req, res) {
-    request(factAttribute.baseUrl, function (error, response, html) {
-        if (!error) {
-            fetchFactData(html, function (err, content) {
-                if (err === false) {
-                    res.send({status: 200, category: "Fact Of the day", message: content});
-                }
-                else {
-                    noContentFound(res);
-                }
-            });
-        }
-        else {
-            displayerrorMessage(res);
-        }
+    var requestedItems = getLengthOfRequestedItems(req);
+    var resultData = [];
+    getFactResult(requestedItems, resultData, function (err, resultCompletedData) {
+        res.send({
+            status: statusOk,
+            category: "Fact Of The  Day",
+            message: resultCompletedData.slice(0, requestedItems)
+        });
     });
+
+    function getFactResult(requestedItems, resultData, callback) {
+        request(factAttribute.baseUrl, function (error, response, html) {
+            if (!error) {
+                fetchFactData(html, function (err, content) {
+                    if (!err) {
+                        content.forEach(function (eachItem) {
+                            resultData.push(eachItem);
+                        });
+                        resultData = resultData.filter(onlyUnique);
+                        if (resultData.length > requestedItems) {
+                            callback(null, resultData);
+                        } else {
+                            getFactResult(requestedItems, resultData, callback);
+                        }
+                    }
+                    else {
+                        noContentFound(res);
+                    }
+                });
+            }
+            else {
+                displayerrorMessage(res);
+            }
+        });
+    }
 };
 
 
@@ -129,21 +189,25 @@ function getRandomTopic(attribute) {
 
 
 function displayerrorMessage(res) {
-    res.send({status: 400, message: "Something went wrong, Please try again"});
+    res.send({status: unavailable, result: "Something went wrong, Please try again", message: []});
 }
 
 
 function noContentFound(res) {
-    res.send({status: 400, message: "No Content Found"});
+    res.send({status: unavailable, result: "No Content Found", message: []});
 }
 
 
 function getLengthOfRequestedItems(req) {
     var items = req.query.items;
-    if (items !== 'undefined' && items >= 0 && items <= 60) {
+    if (items !== 'undefined' && items >= 1 && items <= 60) {
         return items;
     }
     else {
         return 10;
     }
+}
+
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
 }

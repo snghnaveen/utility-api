@@ -1,18 +1,19 @@
-var cheerio = require('cheerio'),
+var _ = require('lodash'),
+    cheerio = require('cheerio'),
     request = require('request'),
     config = require('../config/config'),
-    jokeUrls = config.jokeUrls,
-    quoteUrls = config.quoteUrls,
-    factUrls = config.factUrls;
-
+    jokeAttribute = config.jokeAttribute,
+    quoteAttribute = config.quoteAttribute,
+    factAttribute = config.factAttribute;
 
 
 exports.jokeoftheday = function (req, res) {
-    request(jokeUrls.jokeoftheday, function (error, response, html) {
+    var pageToRender = getRandomTopic(jokeAttribute);
+    request(jokeAttribute.baseUrl + pageToRender, function (error, response, html) {
         if (!error) {
             fetchJokedata(html, function (err, content) {
                 if (!err) {
-                    res.send({ status: 200, category: "Joke Of the day", message: content });
+                    res.send({status: 200, category: "Joke Of the day", message: content});
                 }
                 else {
                     noContentFound(res);
@@ -26,14 +27,13 @@ exports.jokeoftheday = function (req, res) {
 };
 
 
-
-
 exports.quoteoftheday = function (req, res) {
-    request(quoteUrls.quotesoftheday, function (error, response, html) {
+    var pageToRender = getRandomTopic(quoteAttribute);
+    request(quoteAttribute.baseUrl + pageToRender, function (error, response, html) {
         if (!error) {
             fetchQuoteData(html, function (err, content) {
                 if (err === false) {
-                    res.send({ status: 200, category: "Quote Of the day", message: content });
+                    res.send({status: 200, category: "Quote Of the day", message: content});
                 }
                 else {
                     noContentFound(res);
@@ -48,11 +48,11 @@ exports.quoteoftheday = function (req, res) {
 
 
 exports.factoftheday = function (req, res) {
-    request(factUrls.factoftheday, function (error, response, html) {
+    request(factAttribute.baseUrl, function (error, response, html) {
         if (!error) {
             fetchFactData(html, function (err, content) {
                 if (err === false) {
-                    res.send({ status: 200, category: "Fact Of the day", message: content });
+                    res.send({status: 200, category: "Fact Of the day", message: content});
                 }
                 else {
                     noContentFound(res);
@@ -105,12 +105,12 @@ function fetchFactData(html, callback) {
     var content = [];
     var facts = $('#f').text();
     facts = facts.trim();
-    facts = facts.replace(/\n/g, "");        
+    facts = facts.replace(/\n/g, "");
     facts = facts.replace(/tweet/gi, "|");
     facts = facts.split("|");
     facts.pop();
     facts.forEach(function (fact) {
-        content.push(fact); 
+        content.push(fact);
     }, this);
 
     if (content.length >= 1) {
@@ -122,12 +122,28 @@ function fetchFactData(html, callback) {
 }
 
 
-function displayerrorMessage(res) {
-    res.send({ status: 400, message: "Something went wrong, Please try again" });
+function getRandomTopic(attribute) {
+    var randomCategory = attribute.randomCategory;
+    return randomCategory[Math.floor(Math.random() * randomCategory.length)];
 }
 
 
+function displayerrorMessage(res) {
+    res.send({status: 400, message: "Something went wrong, Please try again"});
+}
+
 
 function noContentFound(res) {
-    res.send({ status: 400, message: "No Content Found" });
+    res.send({status: 400, message: "No Content Found"});
+}
+
+
+function getLengthOfRequestedItems(req) {
+    var items = req.query.items;
+    if (items !== 'undefined' && items >= 0 && items <= 60) {
+        return items;
+    }
+    else {
+        return 10;
+    }
 }

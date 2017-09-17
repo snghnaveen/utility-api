@@ -7,7 +7,7 @@
         quoteAttribute = config.quoteAttribute,
         factAttribute = config.factAttribute,
         newsAttribute = config.newsAttribute,
-        unavailable = 503;
+        noResult = 'No Result';
 
 
     exports.getJokeResult = getJokeResult;
@@ -34,7 +34,7 @@
                         }
                     }
                     else {
-                        noContentFound(res);
+                        callback(new Error(noResult));
                     }
                 });
             }
@@ -61,7 +61,7 @@
                         }
                     }
                     else {
-                        noContentFound(res);
+                        callback(new Error(noResult));
                     }
                 });
             }
@@ -87,7 +87,7 @@
                         }
                     }
                     else {
-                        noContentFound(res);
+                        callback(new Error(noResult));
                     }
                 });
             }
@@ -105,7 +105,7 @@
                     callback(null, resultData);
                 }
                 else {
-                    callback(new Error("Not Result Found"));
+                    callback(new Error(noResult));
                 }
             });
         });
@@ -199,10 +199,6 @@
 
     function displayerrorMessage(res) {
         res.send({status: unavailable, result: "Something went wrong, Please try again", message: []});
-    }
-
-    function noContentFound(res) {
-        res.send({status: unavailable, result: "No Content Found", message: []});
     }
 
     function onlyUnique(value, index, self) {

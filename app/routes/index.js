@@ -16,4 +16,9 @@ module.exports = function (router) {
         controller.factoftheday(req, res);
     });
 
+
+    router.all('/news/newsoftheday', function (req, res) {
+        controller.newsoftheday(req, res);
+    });
+
 };

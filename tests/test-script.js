@@ -11,7 +11,8 @@ chai.use(chaiHttp);
 
 var endpoints = ['/api/joke/jokeoftheday',
     '/api/quote/quoteoftheday',
-    '/api/fact/factoftheday'];
+    '/api/fact/factoftheday',
+    '/api/news/newsoftheday'];
 
 endpoints.forEach(function (endpoint) {
     describe(' Testing For - ' + endpoint, function () {

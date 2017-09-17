@@ -17,9 +17,11 @@
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.15.4",
     "mocha": "^3.5.0",
+    "node-schedule": "^1.2.4",
     "nodemon": "^1.12.1",
     "render-readme": "^1.3.1",
-    "request": "^2.81.0"
+    "request": "^2.81.0",
+    "sqlite3": "^3.1.11"
   },
   "keywords": [
     "joke",
@@ -31,10 +33,14 @@
     "fact",
     "fact-api",
     "factoftheday",
-    "utlity",
+    "news",
+    "news-api",
+    "newsoftheday",
+    "utility",
     "fun",
     "api-test",
     "node",
+    "api learn",
     "herkou-sample"
   ]
 }

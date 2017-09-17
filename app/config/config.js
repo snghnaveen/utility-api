@@ -1,7 +1,7 @@
 module.exports = {
     jokeAttribute : {
         baseUrl : "http://www.laughfactory.com/jokes/",
-        randomCategory: ["popular-jokes","latest-jokes","joke-of-the-day","animal-jokes","blonde-jokes","boycott-these-jokes","clean-jokes","family-jokes","food-jokes","holiday-jokes","how-to-be-insulting","insult-jokes","miscellaneous-jokes","national-jokes","office-jokes","political-jokes","pop-culture-jokes","racist-jokes","relationship-jokes","religious-jokes","school-jokes","science-jokes","sexist-jokes","sports-jokes","technology-jokes","word-play-jokes","yo-momma-jokes"]
+        randomCategory: ["popular-jokes","latest-jokes","joke-of-the-day","animal-jokes","blonde-jokes","boycott-these-jokes","clean-jokes","family-jokes","food-jokes","holiday-jokes","how-to-be-insulting","insult-jokes","miscellaneous-jokes","national-jokes","office-jokes","political-jokes","pop-culture-jokes","racist-jokes","relationship-jokes","religious-jokes","school-jokes","science-jokes","sports-jokes","technology-jokes","word-play-jokes"]
     },
     quoteAttribute :{
         baseUrl : "https://www.brainyquote.com/quotes/topics/",
@@ -9,5 +9,8 @@ module.exports = {
     },
     factAttribute : {
         baseUrl : "http://randomfactgenerator.net"
+    },
+    newsAttribute : {
+        baseUrl: "https://www.inshorts.com/en/read"
     }
 };

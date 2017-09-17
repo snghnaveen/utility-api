@@ -7,7 +7,7 @@ var sqlite3 = require('sqlite3').verbose(),
     service = require('./app/services/'),
     chalk = require('chalk');
 
-schedule.scheduleJob('17 * * * *', function () {
+schedule.scheduleJob('*/20 * * * * *', function () {
     console.log(chalk.bgWhite.black('Job Running...' + Date()));
 
     waterfall([

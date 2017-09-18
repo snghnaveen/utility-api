@@ -1,6 +1,6 @@
 var sqlite3 = require('sqlite3').verbose(),
-    db = new sqlite3.Database('./app-sqlite3.db'),
-    // db = new sqlite3.Database(':memory:'),
+    // db = new sqlite3.Database('./app-sqlite3.db'),
+    db = new sqlite3.Database(':memory:'),
     config = require('./app/config/config'),
     waterfall = require('async-waterfall'),
     schedule = require('node-schedule'),

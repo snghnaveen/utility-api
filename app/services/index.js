@@ -16,7 +16,7 @@
 
     exports.getFactResult = getFactResult;
 
-    exports.getNewsResultDb = getNewsResultForDb;
+    exports.getNewsResult = getNewsResult;
 
     function getJokeResult(requestedItems, resultData, callback) {
         request(jokeAttribute.baseUrl + getRandomTopic(jokeAttribute), function (error, response, html) {
@@ -98,7 +98,7 @@
     }
 
 
-    function getNewsResultForDb(callback) {
+    function getNewsResult(callback) {
         request(newsAttribute.baseUrl, function (error, response, html) {
             fetchNewsData(html, function (err, resultData) {
                 if (!err) {

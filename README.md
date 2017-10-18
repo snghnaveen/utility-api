@@ -3,6 +3,10 @@ Utility API
 ======
 An API to for Jokes, Quotes and Facts.
 
+###### Travis Status - 
+[![Build Status](https://api.travis-ci.org/snghnaveen/utility-api.svg?branch=master)](https://travis-ci.org/snghnaveen/utility-api)
+
+
 # Features
 
 * Jokes for the day 
@@ -120,6 +124,7 @@ Example result:
 ```
 
 ### (optional query param)
+//not for news
 - items : number of items expected in message (1 to 60), default is 10
 
 ### Example CURL

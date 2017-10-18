@@ -1,5 +1,4 @@
 var service = require('../services'),
-    jobs = require('../../jobs'),
     statusOk = 200,
     unavailable = 503;
 
@@ -57,25 +56,21 @@ exports.factoftheday = function (req, res) {
             noContentFound(res);
         }
     });
-
 };
 
 
 exports.newsoftheday = function (req, res) {
-    jobs.getNewsResultFromDb(function (err, resultCompletedData) {
+    service.getNewsResult(function (err, resultCompletedData) {
         if (!err) {
             res.send({
                 status: statusOk,
-                category: "News Of The  Day",
+                category: "News Of The Day",
                 message: resultCompletedData
             });
-        }
-        else {
+        } else {
             noContentFound(res);
         }
-
     });
-
 };
 
 function getLengthOfRequestedItems(req) {
